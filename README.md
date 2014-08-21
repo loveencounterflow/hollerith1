@@ -1,13 +1,13 @@
 ![](https://github.com/loveencounterflow/hollerith/raw/master/art/hollerith.png)
 
 
-- [`$.|HOLLERITH|`](#$|hollerith|)
+- [<pre>$.|HOLLERITH|</pre>](#<pre>$|hollerith|<pre>)
 - [xxx](#xxx)
 
 > **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
 
-## `$.|HOLLERITH|`
+## <pre>$.|HOLLERITH|</pre>
 
 
 use LevelDB like 1969
