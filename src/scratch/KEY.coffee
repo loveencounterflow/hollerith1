@@ -27,7 +27,8 @@ urge                      = TRM.get_logger 'urge',      badge
 echo                      = TRM.echo.bind TRM
 rainbow                   = TRM.rainbow.bind TRM
 #...........................................................................................................
-options                   = ( require '../options' )[ 'keys' ]
+options                   = require '../../options'
+M                         = options[ 'marks' ]
 
 
 
@@ -38,19 +39,19 @@ options                   = ( require '../options' )[ 'keys' ]
 @new_route = ( realm, type, name ) ->
   R = [ realm, type, ]
   R.push name if name?
-  return ( @esc part for part in R ).join options[ 'slash' ]
+  return ( @esc part for part in R ).join M[ 'slash' ]
 
 #-----------------------------------------------------------------------------------------------------------
 @new_id = ( realm, type, idn ) ->
-  slash = options[ 'slash' ]
+  slash = M[ 'slash' ]
   return ( @new_route realm, type ) + slash + ( @esc idn )
 
 #-----------------------------------------------------------------------------------------------------------
 @new_node = ( realm, type, idn, tail... ) ->
-  joiner = options[ 'joiner' ]
-  R = options[ 'primary' ] + options[ 'node' ] + joiner + ( @new_id realm, type, idn )
+  joiner = M[ 'joiner' ]
+  R = M[ 'primary' ] + M[ 'node' ] + joiner + ( @new_id realm, type, idn )
   if tail.length > 0
-    R += options[ 'slash' ] + ( ( @esc crumb for crumb in tail ).join options[ 'slash' ] )
+    R += M[ 'slash' ] + ( ( @esc crumb for crumb in tail ).join M[ 'slash' ] )
   R += joiner
   return R
 
@@ -62,34 +63,34 @@ options                   = ( require '../options' )[ 'keys' ]
 
 #-----------------------------------------------------------------------------------------------------------
 @new_facet = ( realm, type, idn, name, value, distance = 0 ) ->
-  joiner = options[ 'joiner' ]
-  return options[ 'primary' ]               \
-    + options[ 'facet' ]                    \
+  joiner = M[ 'joiner' ]
+  return M[ 'primary' ]               \
+    + M[ 'facet' ]                    \
     + joiner                                \
     + ( @new_id realm, type, idn )          \
-    + joiner                                \
-    + distance                              \
     + joiner                                \
     + ( @esc name )                         \
     + joiner                                \
     + ( @esc value )                        \
+    + joiner                                \
+    + distance                              \
     + joiner
 
 #-----------------------------------------------------------------------------------------------------------
 @new_secondary_facet = ( realm, type, idn, name, value, distance = 0 ) ->
-  joiner = options[ 'joiner' ]
-  return options[ 'secondary' ]             \
-    + options[ 'facet' ]                    \
+  joiner = M[ 'joiner' ]
+  return M[ 'secondary' ]             \
+    + M[ 'facet' ]                    \
     + joiner                                \
     + ( @new_route realm, type )            \
-    + joiner                                \
-    + distance                              \
     + joiner                                \
     + ( @esc name )                         \
     + joiner                                \
     + ( @esc value )                        \
     + joiner                                \
     + ( @esc idn )                          \
+    + joiner                                \
+    + distance                              \
     + joiner
 
 #-----------------------------------------------------------------------------------------------------------
@@ -100,30 +101,30 @@ options                   = ( require '../options' )[ 'keys' ]
 
 #-----------------------------------------------------------------------------------------------------------
 @new_link = ( realm_0, type_0, idn_0, realm_1, type_1, idn_1, distance = 0 ) ->
-  joiner = options[ 'joiner' ]
-  return options[ 'primary' ]               \
-    + options[ 'link' ]                     \
+  joiner = M[ 'joiner' ]
+  return M[ 'primary' ]               \
+    + M[ 'link' ]                     \
     + joiner                                \
     + ( @new_id realm_0, type_0, idn_0 )    \
     + joiner                                \
-    + distance                              \
-    + joiner                                \
     + ( @new_id realm_1, type_1, idn_1 )    \
+    + joiner                                \
+    + distance                              \
     + joiner
 
 #-----------------------------------------------------------------------------------------------------------
 @new_secondary_link = ( realm_0, type_0, idn_0, realm_1, type_1, idn_1, distance = 0 ) ->
-  joiner = options[ 'joiner' ]
-  return options[ 'secondary' ]             \
-    + options[ 'link' ]                     \
+  joiner = M[ 'joiner' ]
+  return M[ 'secondary' ]             \
+    + M[ 'link' ]                     \
     + joiner                                \
     + ( @new_route realm_0, type_0 )        \
-    + joiner                                \
-    + distance                              \
     + joiner                                \
     + ( @new_id realm_1, type_1, idn_1 )    \
     + joiner                                \
     + ( @esc idn_0 )                        \
+    + joiner                                \
+    + distance                              \
     + joiner
 
 
@@ -131,21 +132,21 @@ options                   = ( require '../options' )[ 'keys' ]
 # READERS
 #-----------------------------------------------------------------------------------------------------------
 @read = ( key ) ->
-  [ [ layer, type ], fields... ] = key.split options[ 'joiner' ]
+  [ [ layer, type ], fields... ] = key.split M[ 'joiner' ]
   #.........................................................................................................
   switch layer
-    when options[ 'primary' ]
+    when M[ 'primary' ]
       switch type
-        when options[ 'node'  ] then R = @_read_primary_node    fields...
-        when options[ 'facet' ] then R = @_read_primary_facet   fields...
-        when options[ 'link'  ] then R = @_read_primary_link    fields...
+        when M[ 'node'  ] then R = @_read_primary_node    fields...
+        when M[ 'facet' ] then R = @_read_primary_facet   fields...
+        when M[ 'link'  ] then R = @_read_primary_link    fields...
         else throw new Error "unknown type mark #{rpr type}"
     #.......................................................................................................
-    when options[ 'secondary' ]
+    when M[ 'secondary' ]
       switch type
-        # when options[ 'node'  ] then R = @_read_secondary_node  fields...
-        when options[ 'facet' ] then R = @_read_secondary_facet fields...
-        when options[ 'link'  ] then R = @_read_secondary_link  fields...
+        # when M[ 'node'  ] then R = @_read_secondary_node  fields...
+        when M[ 'facet' ] then R = @_read_secondary_facet fields...
+        when M[ 'link'  ] then R = @_read_secondary_link  fields...
         else throw new Error "unknown type mark #{rpr type}"
     #.......................................................................................................
     else throw new Error "unknown layer mark #{rpr layer}"
@@ -187,7 +188,7 @@ options                   = ( require '../options' )[ 'keys' ]
   R =
     level:      'secondary'
     type:       'facet'
-    id:         route + options[ 'slash' ] + idn
+    id:         route + M[ 'slash' ] + idn
     name:       name
     value:      value
     distance:   parseInt distance, 10
@@ -195,7 +196,7 @@ options                   = ( require '../options' )[ 'keys' ]
 
 #-----------------------------------------------------------------------------------------------------------
 @_read_secondary_link = ( route_0, distance, id_1, idn_0 ) ->
-  id_0 = route_0 + options[ 'slash' ] + idn_0
+  id_0 = route_0 + M[ 'slash' ] + idn_0
   R =
     level:      'secondary'
     type:       'link'
@@ -236,7 +237,7 @@ options                   = ( require '../options' )[ 'keys' ]
   ### TAINT should slashes in name be escaped? ###
   ### TAINT what happens when we infer from an inferred facet? do all the escapes get re-escaped? ###
   ### TAINT use module method ###
-  slash           = options[ 'slash' ]
+  slash           = M[ 'slash' ]
   name            = ( @esc facet_realm ) + slash + ( @esc facet_type ) + slash + ( @esc facet[ 'name' ] )
   value           = facet[ 'value'    ]
   distance        =  link[ 'distance' ] + facet[ 'distance' ] + 1
@@ -275,12 +276,12 @@ options                   = ( require '../options' )[ 'keys' ]
       R = R.replace /\x08/g, '\\x08'
       return R
   #.........................................................................................................
-  joiner_matcher  = new RegExp ( escape options[ 'joiner' ] ), 'g'
-  slash_matcher   = new RegExp ( escape options[ 'slash'  ] ), 'g'
-  loop_matcher    = new RegExp ( escape options[ 'loop'   ] ), 'g'
-  joiner_replacer = ( '%' + d.toString 16 for d in new Buffer options[ 'joiner' ] ).join ''
-  slash_replacer  = ( '%' + d.toString 16 for d in new Buffer options[ 'slash'  ] ).join ''
-  loop_replacer   = ( '%' + d.toString 16 for d in new Buffer options[ 'loop'   ] ).join ''
+  joiner_matcher  = new RegExp ( escape M[ 'joiner' ] ), 'g'
+  slash_matcher   = new RegExp ( escape M[ 'slash'  ] ), 'g'
+  loop_matcher    = new RegExp ( escape M[ 'loop'   ] ), 'g'
+  joiner_replacer = ( '%' + d.toString 16 for d in new Buffer M[ 'joiner' ] ).join ''
+  slash_replacer  = ( '%' + d.toString 16 for d in new Buffer M[ 'slash'  ] ).join ''
+  loop_replacer   = ( '%' + d.toString 16 for d in new Buffer M[ 'loop'   ] ).join ''
   #.........................................................................................................
   return ( x ) ->
     throw new Error "value cannot be undefined" if x is undefined
@@ -294,7 +295,7 @@ options                   = ( require '../options' )[ 'keys' ]
 #-----------------------------------------------------------------------------------------------------------
 @split_id = ( id ) ->
   ### TAINT must unescape ###
-  R = id.split slash = options[ 'slash' ]
+  R = id.split slash = M[ 'slash' ]
   throw new Error "expected three parts separated by #{rpr slash}, got #{rpr id}" unless R.length is 3
   throw new Error "realm cannot be empty in #{rpr id}"  unless R[ 0 ].length > 0
   throw new Error "type cannot be empty in #{rpr id}"   unless R[ 1 ].length > 0
@@ -304,7 +305,7 @@ options                   = ( require '../options' )[ 'keys' ]
 #-----------------------------------------------------------------------------------------------------------
 @split_compound_selector = ( compound_selector ) ->
   ### TAINT must unescape ###
-  return compound_selector.split options[ 'loop' ]
+  return compound_selector.split M[ 'loop' ]
 
 #-----------------------------------------------------------------------------------------------------------
 @_idn_from_id = ( id ) ->
