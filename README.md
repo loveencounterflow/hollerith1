@@ -1,8 +1,7 @@
 
 
-	- [hollerith](#hollerith)
-	- [xxx](#xxx)
-- [](#)
+- [hollerith](#hollerith)
+- [xxx](#xxx)
 
 > **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
@@ -78,10 +77,10 @@ $^|gtfs/trip/456|0|gtfs/service/888
 
   gtfs/stoptime/876|-1>gtfs/trip/456
                         gtfs/trip/456|-1>gtfs/service/888
-—————————————————————————————————————————————————————————
+——————————————————————————————————————————————————————————————————
 = gtfs/stoptime/876|-2>gtfs/service/888
+——————————————————————————————————————————————————————————————————
 
-============================================================================================================
 
 % : | realm / type   | name | value | idn
 % ^ | realm₀ / type₀ | n | realm₁ / type₁ / idn₁ | idn₀
