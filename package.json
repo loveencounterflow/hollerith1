@@ -1,0 +1,34 @@
+{
+  "name": "hollerith",
+  "version": "0.0.0",
+  "description": "use LevelDB like 1969",
+  "main": "lib/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loveencounterflow/hollerith.git"
+  },
+  "keywords": [
+    "level",
+    "leveldb",
+    "db",
+    "hollerith",
+    "punchcard"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/loveencounterflow/hollerith/issues"
+  },
+  "homepage": "https://github.com/loveencounterflow/hollerith",
+  "devDependencies": {
+    "coffee-script": "^1.7.1"
+  },
+  "dependencies": {
+    "coffeenode-text": "^0.1.7",
+    "coffeenode-trm": "^0.1.20",
+    "pipedreams": "0.0.11"
+  }
+}
