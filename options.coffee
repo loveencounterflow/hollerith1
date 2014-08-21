@@ -27,9 +27,9 @@ module.exports = options =
     'primary':            '$'
     'secondary':          '%'
     # connector marks:
-    'slash':              '/'
-    'joiner':             '|'
     'loop':               '°'
+    'joiner':             '|'
+    'slash':              '/'
     # type marks:
     'node':               '.'
     'link':               '^'

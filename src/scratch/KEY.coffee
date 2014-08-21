@@ -64,8 +64,8 @@ M                         = options[ 'marks' ]
 #-----------------------------------------------------------------------------------------------------------
 @new_facet = ( realm, type, idn, name, value, distance = 0 ) ->
   joiner = M[ 'joiner' ]
-  return M[ 'primary' ]               \
-    + M[ 'facet' ]                    \
+  return M[ 'primary' ]                     \
+    + M[ 'facet' ]                          \
     + joiner                                \
     + ( @new_id realm, type, idn )          \
     + joiner                                \
@@ -79,8 +79,8 @@ M                         = options[ 'marks' ]
 #-----------------------------------------------------------------------------------------------------------
 @new_secondary_facet = ( realm, type, idn, name, value, distance = 0 ) ->
   joiner = M[ 'joiner' ]
-  return M[ 'secondary' ]             \
-    + M[ 'facet' ]                    \
+  return M[ 'secondary' ]                   \
+    + M[ 'facet' ]                          \
     + joiner                                \
     + ( @new_route realm, type )            \
     + joiner                                \
@@ -102,8 +102,8 @@ M                         = options[ 'marks' ]
 #-----------------------------------------------------------------------------------------------------------
 @new_link = ( realm_0, type_0, idn_0, realm_1, type_1, idn_1, distance = 0 ) ->
   joiner = M[ 'joiner' ]
-  return M[ 'primary' ]               \
-    + M[ 'link' ]                     \
+  return M[ 'primary' ]                     \
+    + M[ 'link' ]                           \
     + joiner                                \
     + ( @new_id realm_0, type_0, idn_0 )    \
     + joiner                                \
@@ -115,8 +115,8 @@ M                         = options[ 'marks' ]
 #-----------------------------------------------------------------------------------------------------------
 @new_secondary_link = ( realm_0, type_0, idn_0, realm_1, type_1, idn_1, distance = 0 ) ->
   joiner = M[ 'joiner' ]
-  return M[ 'secondary' ]             \
-    + M[ 'link' ]                     \
+  return M[ 'secondary' ]                   \
+    + M[ 'link' ]                           \
     + joiner                                \
     + ( @new_route realm_0, type_0 )        \
     + joiner                                \
@@ -163,7 +163,7 @@ M                         = options[ 'marks' ]
   return R
 
 #-----------------------------------------------------------------------------------------------------------
-@_read_primary_facet = ( id, distance, name, value ) ->
+@_read_primary_facet = ( id, name, value, distance ) ->
   R =
     level:      'primary'
     type:       'facet'
@@ -174,7 +174,7 @@ M                         = options[ 'marks' ]
   return R
 
 #-----------------------------------------------------------------------------------------------------------
-@_read_primary_link = ( id_0, distance, id_1 ) ->
+@_read_primary_link = ( id_0, id_1, distance ) ->
   R =
     level:      'primary'
     type:       'link'
@@ -184,7 +184,7 @@ M                         = options[ 'marks' ]
   return R
 
 #-----------------------------------------------------------------------------------------------------------
-@_read_secondary_facet = ( route, distance, name, value, idn ) ->
+@_read_secondary_facet = ( route, name, value, idn, distance ) ->
   R =
     level:      'secondary'
     type:       'facet'
@@ -195,7 +195,7 @@ M                         = options[ 'marks' ]
   return R
 
 #-----------------------------------------------------------------------------------------------------------
-@_read_secondary_link = ( route_0, distance, id_1, idn_0 ) ->
+@_read_secondary_link = ( route_0, id_1, idn_0, distance ) ->
   id_0 = route_0 + M[ 'slash' ] + idn_0
   R =
     level:      'secondary'
@@ -301,6 +301,10 @@ M                         = options[ 'marks' ]
   throw new Error "type cannot be empty in #{rpr id}"   unless R[ 1 ].length > 0
   throw new Error "IDN cannot be empty in #{rpr id}"    unless R[ 2 ].length > 0
   return R
+
+#-----------------------------------------------------------------------------------------------------------
+@split = ( x ) ->
+  return x.split M[ 'joiner' ]
 
 #-----------------------------------------------------------------------------------------------------------
 @split_compound_selector = ( compound_selector ) ->
