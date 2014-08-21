@@ -27,5 +27,6 @@ node_modules
 data
 art/*
 !art/*.png
+!art/*.jpg
 
 
