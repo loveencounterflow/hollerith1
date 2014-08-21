@@ -1,3 +1,4 @@
+![](https://github.com/loveencounterflow/hollerith/raw/master/art/hollerith.png)
 
 
 - [hollerith](#hollerith)
@@ -8,9 +9,8 @@
 
 ## hollerith
 
-![](https://github.com/loveencounterflow/hollerith/raw/master/art/hollerith.png)
 
-using LevelDB like 1969
+use LevelDB like 1969
 
 
 ## xxx

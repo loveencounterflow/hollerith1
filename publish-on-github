@@ -4,9 +4,11 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR
 
 
+
 ./node_modules/coffee-script/bin/coffee -o lib -c src && \
 ./node_modules/coffee-script/bin/coffee -o . -c options.coffee && \
 doctoc README.md && \
+echo "![](https://github.com/loveencounterflow/hollerith/raw/master/art/hollerith.png)"|cat - README.md > /tmp/hollerith-README.tmp && mv /tmp/hollerith-README.tmp README.md && \
 # coffeedoc -o doc src && \
 git add --all && \
 git commit -m "autocommit"
