@@ -2,9 +2,6 @@
 
 	- [hollerith](#hollerith)
 	- [xxx](#xxx)
-	- [+                   $^|gtfs/trip/456|gtfs/route/777](#+-------------------$^|gtfstrip456|gtfsroute777)
-	- [+                                 $:|gtfs/route/777|name|U4](#+---------------------------------$|gtfsroute777|name|u4)
-	- [                        gtfs/trip/456|-1>gtfs/service/888](#gtfstrip456|-1>gtfsservice888)
 - [](#)
 
 > **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
@@ -16,6 +13,8 @@ using LevelDB like 1969
 
 
 ## xxx
+
+samples:
 
 ```coffee
 gtfs:
@@ -59,10 +58,10 @@ $^|gtfs/trip/456|0|gtfs/service/888
 
   $^|gtfs/stoptime/876|gtfs/trip/456
 +                   $^|gtfs/trip/456|gtfs/route/777
-----------------------------------------------------------------
+—————————————————————————————————————————————————————————
 = %^|gtfs/stoptime| 2               |gtfs/route/777|876
 +                                 $:|gtfs/route/777|name|U4
-----------------------------------------------------------------
+—————————————————————————————————————————————————————————
 = %:|gtfs/stoptime/876              |gtfs/route/    name|U4
 
 # or
@@ -77,7 +76,7 @@ $^|gtfs/trip/456|0|gtfs/service/888
 
   gtfs/stoptime/876|-1>gtfs/trip/456
                         gtfs/trip/456|-1>gtfs/service/888
-----------------------------------------------------------------
+—————————————————————————————————————————————————————————
 = gtfs/stoptime/876|-2>gtfs/service/888
 
 ============================================================================================================
@@ -111,3 +110,5 @@ escape_chr
 :
 ^
 ```
+
+
