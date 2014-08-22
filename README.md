@@ -26,20 +26,21 @@ you might expect a modern database should provide; in particular, LevelDB
 * is a pure in-process DB; there are no other communication mechanisms like an HTTP API or somesuch;
 * does not provide indexes on data;
 * does not have data types or even have a concept of string encoding—all keys and values are just
-	arbitrary byte sequences;
-* intricate transaction handling (but see below for batches);
+  arbitrary byte sequences;
+* intricate transaction handling (although it does feature compound batch operations that either succeed
+  or fail with no partial commits);
 
+What LevelDB does have, on the other hand is this (names given are for `hollerith` plus, in brackets,
+their equivalents in `levelup`):
 
-What LevelDB does have, on the other hand is this:
-
-* **a `put key, value` operation that stores a key / value pair (let's call that a 'facet' for short),**
-* **a `get key` operation that either yields the value that was `put` under that key, or else throws an
-	error in case the key is not found,**
+* **a `set key, value` (`levelup`: `put`) operation that stores a key / value pair (let's call that a 'facet' for short),**
+* **a `get key` (`levelup`: `get`) operation that either yields the value that was `put` under that key, or else throws an
+  error in case the key is not found,**
 
 and, most interestingly:
 
-* **a read operation that walks over all keys, lexicographically ordered by their byte sequences, which can
-	optionally be confined by setting a lower and an upper bound**.
+* **a `read ...` (`levelup`: `createReadStream`) operation that walks over all keys, lexicographically
+  ordered by their byte sequences, which can optionally be confined by setting a lower and an upper bound**.
 
 
 ## xxx
