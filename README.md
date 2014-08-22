@@ -52,12 +52,14 @@ explanation: lexicographical ordering (in computer science) is somewhat differen
 representation* are considered in a purely mechanical way to decide what comes first and what comes next;
 there are no further considerations of a linguistic, orthographic or cultural nature made.
 
-Because early
-computers *were* in fact mechanical beasts that operated quite 'close to the metal' (resp. the holes on
-punched cards that were detected with rods, electric brushes, or photosensors, as the case may be), early
-encoding schemes had a big impact on whether or not you could sort your data in a convenient manner using
-period machinery or not—this is the reason why, to this day, Unicode's first block (Basic Latin) still looks
-quite orderly: there are contiguous ranges that comprise the digits `0`&nbsp;⋯&nbsp;`9`, the upper case letters `A`&nbsp;⋯&nbsp;`Z`
+Because early computers *were* in fact mechanical beasts that operated quite 'close to the metal' (resp. the
+holes on punched cards that were detected with rods, electric brushes, or photosensors, as the case may be),
+early encoding schemes had a big impact on whether or not you could sort your data in a convenient manner
+using period machinery or not—this is the reason why, to this day, Unicode's first block (Basic Latin,  a
+holdover from the early 1960s' 7bit ASCII standard) looks so orderly: there are contiguous ranges that
+comprise the digits `0`&nbsp;⋯&nbsp;`9`, the upper case letters `A`&nbsp;⋯&nbsp;`Z`, and the lower case
+letters `a`&nbsp;⋯&nbsp;`z`. As shown below for the letters `a`, `b` and `c`, this makes binary-based
+lexicographic sorting straightforward and intuitive .
 
 When using Unicode, the naïve, old-fashioned way of constructing an upper limit by appending Latin-1 `ÿ`
 (`0xff`) to the key does *not* work.
@@ -71,8 +73,11 @@ UCS-2
 |  nr | chr |    CID     |         UTF-8 (hexadecimal)         |                UTF-8 (binary)                |
 | --: | --- | ---------: | ----------------------------------- | -------------------------------------------- |
 |   1 | ␀   |      `u/0` | `0x00`                              | `00000000`                                   |
-|   2 | a   |     `u/61` | `0x61`                              | <tt>0▲100001</tt>                            |
-|   3 | b   |     `u/63` | <tt><b>0x62</b></tt>                | <tt>011000▲0</tt>                            |
+|   2 | A   |     `u/41` | <tt><b>0x42</b></tt>                | <tt>0▲000001</tt>                            |
+|   3 | B   |     `u/42` | <tt><b>0x42</b></tt>                | <tt>010000▲0</tt>                            |
+|   4 | C   |     `u/43` | <tt><b>0x43</b></tt>                | <tt>0100001▲</tt>                            |
+|   2 | a   |     `u/61` | `0x61`                              | <tt>01▲00001</tt>                            |
+|   3 | b   |     `u/62` | <tt><b>0x62</b></tt>                | <tt>011000▲0</tt>                            |
 |   4 | c   |     `u/63` | <tt><b>0x63</b></tt>                | <tt>0110001▲</tt>                            |
 |   5 | ä   |     `u/e4` | <tt>0xc3 <b>0xa4</b></tt>           | <tt>11000011 ▲0100100</tt>                   |
 |   6 | ÿ   |     `u/ff` | <tt>0xc3 <b>0xbf</b></tt>           | <tt>11000011 ▲0111111</tt>                   |
