@@ -56,7 +56,7 @@ When using Unicode, the naïve, old-fashioned way of constructing an upper limit
 
 UCS-2
 
-"The lexicographic sorting order of UCS-4 strings is preserved."—[RFC 2044](https://www.ietf.org/rfc/rfc2044.txt)
+> "The lexicographic sorting order of UCS-4 strings is preserved."—[RFC 2044](https://www.ietf.org/rfc/rfc2044.txt)
 
 
 
@@ -73,7 +73,7 @@ UCS-2
 |   9 | 𠀀   |  `u/20000` | <tt><b>0xf0</b> 0xa0 0x80 0x80</tt> | <tt>111▲0000 10100000 10000000 10000000</tt> |
 |  10 | 𠀁   |  `u/20001` | <tt>0xf0 0xa0 0x80 <b>0x81</b></tt> | <tt>11110000 10100000 10000000 1000000▲</tt> |
 |  11 | 􏿽   | `u/10fffd` | <tt><b>0xf4</b> 0x8f 0xbf 0xbd</tt> | <tt>11110▲00 10001111 10111111 10111101</tt> |
-|  12 | �   |        ./. | <tt><b>0xff</b></tt>                | <tt>1111▲111</tt>                            |
+|  12 | �   |        ./. | <tt><b>0xff</b></tt>                | <nobr><tt>1111▲111</tt></nobr>                            |
 
 > *Comments*—**(1)** symbolically using a character from the Unicode Command Pictures block; **(11)** the last
 > legal codepoint of Unicode in the Supplementary Private Use Area B; appearance undefined; **(12)** as
