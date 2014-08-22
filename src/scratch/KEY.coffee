@@ -210,6 +210,18 @@ M                         = options[ 'marks' ]
 # ANALYZERS
 #-----------------------------------------------------------------------------------------------------------
 @infer = ( key_0, key_1 ) ->
+  return @_infer key_0, key_1, 'primary'
+
+#-----------------------------------------------------------------------------------------------------------
+@infer_secondary = ( key_0, key_1 ) ->
+  return @_infer key_0, key_1, 'secondary'
+
+#-----------------------------------------------------------------------------------------------------------
+@infer_pair = ( key_0, key_1 ) ->
+  return @_infer key_0, key_1, 'pair'
+
+#-----------------------------------------------------------------------------------------------------------
+@_infer = ( key_0, key_1, mode ) ->
   info_0 = if TYPES.isa_text key_0 then @read key_0 else key_0
   info_1 = if TYPES.isa_text key_1 then @read key_1 else key_1
   #.........................................................................................................
@@ -219,13 +231,13 @@ M                         = options[ 'marks' ]
       throw new Error "unable to infer link from #{rpr info_0[ 'key' ]} and #{rpr info_1[ 'key' ]}"
     #.......................................................................................................
     switch type_1 = info_1[ 'type' ]
-      when 'link'   then return @_infer_link  info_0, info_1
-      when 'facet'  then return @_infer_facet info_0, info_1
+      when 'link'   then return @_infer_link  info_0, info_1, mode
+      when 'facet'  then return @_infer_facet info_0, info_1, mode
   #.........................................................................................................
   throw new Error "expected a link plus a link or a facet, got a #{type_0} and a #{type_1}"
 
 #-----------------------------------------------------------------------------------------------------------
-@_infer_facet = ( link, facet ) ->
+@_infer_facet = ( link, facet, mode ) ->
   #.........................................................................................................
   [ link_realm
     link_type
@@ -238,14 +250,19 @@ M                         = options[ 'marks' ]
   ### TAINT what happens when we infer from an inferred facet? do all the escapes get re-escaped? ###
   ### TAINT use module method ###
   slash           = M[ 'slash' ]
-  name            = ( @esc facet_realm ) + slash + ( @esc facet_type ) + slash + ( @esc facet[ 'name' ] )
+  ### TAINT make use of dash configurable ###
+  name            = ( @esc facet_realm ) + '-' + ( @esc facet_type ) + '-' + ( @esc facet[ 'name' ] )
   value           = facet[ 'value'    ]
   distance        =  link[ 'distance' ] + facet[ 'distance' ] + 1
   #.........................................................................................................
-  return @new_facet_pair link_realm, link_type, link_idn, name, value, distance
+  switch mode
+    when 'primary'   then return @new_facet           link_realm, link_type, link_idn, name, value, distance
+    when 'secondary' then return @new_secondary_facet link_realm, link_type, link_idn, name, value, distance
+    when 'pair'      then return @new_facet_pair      link_realm, link_type, link_idn, name, value, distance
+    else throw new Error "unknown mode #{rpr mode}"
 
 #-----------------------------------------------------------------------------------------------------------
-@_infer_link = ( link_0, link_1 ) ->
+@_infer_link = ( link_0, link_1, mode ) ->
   ###
     $^|gtfs/stoptime/876|0|gtfs/trip/456
   +                   $^|gtfs/trip/456|0|gtfs/route/777
@@ -262,7 +279,11 @@ M                         = options[ 'marks' ]
     idn_2  ]  = @split_id link_1[ 'target' ]
   distance    = link_0[ 'distance' ] + link_1[ 'distance' ] + 1
   #.........................................................................................................
-  return @new_link_pair realm_0, type_0, idn_0, realm_2, type_2, idn_2, distance
+  switch mode
+    when 'primary'   then return @new_link           realm_0, type_0, idn_0, realm_2, type_2, idn_2, distance
+    when 'secondary' then return @new_secondary_link realm_0, type_0, idn_0, realm_2, type_2, idn_2, distance
+    when 'pair'      then return @new_link_pair      realm_0, type_0, idn_0, realm_2, type_2, idn_2, distance
+    else throw new Error "unknown mode #{rpr mode}"
 
 
 ############################################################################################################

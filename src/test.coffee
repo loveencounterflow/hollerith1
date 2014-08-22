@@ -40,9 +40,10 @@ eqs = ( probe, setpoint ) ->
 
 #-----------------------------------------------------------------------------------------------------------
 T = ( title, method ) ->
-  arity = method.length
+  arity         = method.length
   unless 1 <= arity <= 2
     throw new Error "expected test method with 1 or 2 arguments, got method with #{arity} arguments"
+  T.error_count = 0
   title_width   = 30
   message_width = 70
   title_txt     = TEXT.flush_left ( TEXT.truncate title, title_width ), title_width
@@ -54,33 +55,51 @@ T = ( title, method ) ->
       if eq probe, setpoint
         log TRM.GREEN pass_mark, title_txt, ( TRM.grey TEXT.truncate setpoint, message_width )
       else
+        T.error_count += 1
         log ( TRM.RED fail_mark, title_txt ), DIFF.colorize probe, setpoint
     #.......................................................................................................
     eqjson: ( probe, setpoint ) ->
       if eq probe, setpoint
         log TRM.GREEN pass_mark, title_txt, ( TRM.grey TEXT.truncate ( JSON.stringify setpoint ), message_width )
       else
+        T.error_count += 1
         log ( TRM.RED fail_mark, title_txt ), DIFF.colorize ( JSON.stringify probe ), ( JSON.stringify setpoint )
   # whisper title
   method _
 
 
-T 'KEY.new_node 1',             ( _ ) -> _.eqs ( KEY.new_node            'myrealm', 'mytype', 'myid'                             ), '$.|myrealm/mytype/myid|'
-T 'KEY.new_node 2',             ( _ ) -> _.eqs ( KEY.new_node            'myrealm', 'mytype', 'myid', 'tail1', 'tail2'           ), '$.|myrealm/mytype/myid/tail1/tail2|'
-T 'KEY.new_facet',              ( _ ) -> _.eqs ( KEY.new_facet           'gtfs', 'stop', '5643', 'name', 'Piazza Bavaria'        ), '$:|gtfs/stop/5643|name|Piazza Bavaria|0|'
-T 'KEY.new_secondary_facet',    ( _ ) -> _.eqs ( KEY.new_secondary_facet 'gtfs', 'stop', '5643', 'name', 'Piazza Bavaria'        ), '%:|gtfs/stop|name|Piazza Bavaria|5643|0|'
-T 'KEY.new_link',               ( _ ) -> _.eqs ( KEY.new_link            'gtfs', 'stoptime', '77876452', 'gtfs', 'stop', '3221'  ), '$^|gtfs/stoptime/77876452|gtfs/stop/3221|0|'
-T 'KEY.new_secondary_link',     ( _ ) -> _.eqs ( KEY.new_secondary_link  'gtfs', 'stoptime', '77876452', 'gtfs', 'stop', '3221'  ), '%^|gtfs/stoptime|gtfs/stop/3221|77876452|0|'
+T 'KEY.new_node 1',                   ( _ ) -> _.eqs ( KEY.new_node            'myrealm', 'mytype', 'myid'                             ), '$.|myrealm/mytype/myid|'
+T 'KEY.new_node 2',                   ( _ ) -> _.eqs ( KEY.new_node            'myrealm', 'mytype', 'myid', 'tail1', 'tail2'           ), '$.|myrealm/mytype/myid/tail1/tail2|'
+T 'KEY.new_facet',                    ( _ ) -> _.eqs ( KEY.new_facet           'gtfs', 'stop', '5643', 'name', 'Piazza Bavaria'        ), '$:|gtfs/stop/5643|name|Piazza Bavaria|0|'
+T 'KEY.new_secondary_facet',          ( _ ) -> _.eqs ( KEY.new_secondary_facet 'gtfs', 'stop', '5643', 'name', 'Piazza Bavaria'        ), '%:|gtfs/stop|name|Piazza Bavaria|5643|0|'
+T 'KEY.new_link',                     ( _ ) -> _.eqs ( KEY.new_link            'gtfs', 'stoptime', '77876452', 'gtfs', 'stop', '3221'  ), '$^|gtfs/stoptime/77876452|gtfs/stop/3221|0|'
+T 'KEY.new_secondary_link',           ( _ ) -> _.eqs ( KEY.new_secondary_link  'gtfs', 'stoptime', '77876452', 'gtfs', 'stop', '3221'  ), '%^|gtfs/stoptime|gtfs/stop/3221|77876452|0|'
 
-T 'KEY.read node 1',            ( _ ) -> _.eqjson ( KEY.read '$.|myrealm/mytype/myid|'                     ), {"level":"primary","type":"node","id":"myrealm/mytype/myid","key":"$.|myrealm/mytype/myid|"}
-T 'KEY.read node 2',            ( _ ) -> _.eqjson ( KEY.read '$.|myrealm/mytype/myid/tail1/tail2|'         ), {"level":"primary","type":"node","id":"myrealm/mytype/myid/tail1/tail2","key":"$.|myrealm/mytype/myid/tail1/tail2|"}
-T 'KEY.read facet',             ( _ ) -> _.eqjson ( KEY.read '$:|gtfs/stop/5643|name|Piazza Bavaria|0|'    ), {"level":"primary","type":"facet","id":"gtfs/stop/5643","name":"name","value":"Piazza Bavaria","distance":0,"key":"$:|gtfs/stop/5643|name|Piazza Bavaria|0|"}
-T 'KEY.read secondary facet',   ( _ ) -> _.eqjson ( KEY.read '%:|gtfs/stop|name|Piazza Bavaria|5643|0|'    ), {"level":"secondary","type":"facet","id":"gtfs/stop/5643","name":"name","value":"Piazza Bavaria","distance":0,"key":"%:|gtfs/stop|name|Piazza Bavaria|5643|0|"}
-T 'KEY.read link',              ( _ ) -> _.eqjson ( KEY.read '$^|gtfs/stoptime/77876452|gtfs/stop/3221|0|' ), {"level":"primary","type":"link","id":"gtfs/stoptime/77876452","target":"gtfs/stop/3221","distance":0,"key":"$^|gtfs/stoptime/77876452|gtfs/stop/3221|0|"}
-T 'KEY.read secondary link',    ( _ ) -> _.eqjson ( KEY.read '%^|gtfs/stoptimeXXX|gtfs/stop/3221|77876452|0|' ), {"level":"secXondary","type":"link","id":"gtfs/stoptime/77876452","target":"gtfs/stop/3221","distance":0,"key":"%^|gtfs/stoptime|gtfs/stop/3221|77876452|0|"}
+T 'KEY.read node 1',                  ( _ ) -> _.eqjson ( KEY.read '$.|myrealm/mytype/myid|'                     ), {"level":"primary","type":"node","id":"myrealm/mytype/myid","key":"$.|myrealm/mytype/myid|"}
+T 'KEY.read node 2',                  ( _ ) -> _.eqjson ( KEY.read '$.|myrealm/mytype/myid/tail1/tail2|'         ), {"level":"primary","type":"node","id":"myrealm/mytype/myid/tail1/tail2","key":"$.|myrealm/mytype/myid/tail1/tail2|"}
+T 'KEY.read facet',                   ( _ ) -> _.eqjson ( KEY.read '$:|gtfs/stop/5643|name|Piazza Bavaria|0|'    ), {"level":"primary","type":"facet","id":"gtfs/stop/5643","name":"name","value":"Piazza Bavaria","distance":0,"key":"$:|gtfs/stop/5643|name|Piazza Bavaria|0|"}
+T 'KEY.read secondary facet',         ( _ ) -> _.eqjson ( KEY.read '%:|gtfs/stop|name|Piazza Bavaria|5643|0|'    ), {"level":"secondary","type":"facet","id":"gtfs/stop/5643","name":"name","value":"Piazza Bavaria","distance":0,"key":"%:|gtfs/stop|name|Piazza Bavaria|5643|0|"}
+T 'KEY.read link',                    ( _ ) -> _.eqjson ( KEY.read '$^|gtfs/stoptime/77876452|gtfs/stop/3221|0|' ), {"level":"primary","type":"link","id":"gtfs/stoptime/77876452","target":"gtfs/stop/3221","distance":0,"key":"$^|gtfs/stoptime/77876452|gtfs/stop/3221|0|"}
+T 'KEY.read secondary link',          ( _ ) -> _.eqjson ( KEY.read '%^|gtfs/stoptime|gtfs/stop/3221|77876452|0|' ), {"level":"secondary","type":"link","id":"gtfs/stoptime/77876452","target":"gtfs/stop/3221","distance":0,"key":"%^|gtfs/stoptime|gtfs/stop/3221|77876452|0|"}
+
+T 'KEY.infer from links',             ( _ ) -> _.eqjson ( KEY.infer           '%^|gtfs/stoptime|gtfs/trip/443|77876452|0|', '%^|gtfs/trip|gtfs/route/89|443|0|' ), "$^|gtfs/stoptime/77876452|gtfs/route/89|1|"
+T 'KEY.infer_secondary from links',   ( _ ) -> _.eqjson ( KEY.infer_secondary '%^|gtfs/stoptime|gtfs/trip/443|77876452|0|', '%^|gtfs/trip|gtfs/route/89|443|0|' ), "%^|gtfs/stoptime|gtfs/route/89|77876452|1|"
+T 'KEY.infer_pair from links',        ( _ ) -> _.eqjson ( KEY.infer_pair      '%^|gtfs/stoptime|gtfs/trip/443|77876452|0|', '%^|gtfs/trip|gtfs/route/89|443|0|' ), ["$^|gtfs/stoptime/77876452|gtfs/route/89|1|","%^|gtfs/stoptime|gtfs/route/89|77876452|1|"]
+
+T 'KEY.infer link, facet',            ( _ ) -> _.eqjson ( KEY.infer           '%^|gtfs/stoptime|gtfs/trip/443|77876452|0|', '$:|gtfs/trip/443|headsign|Pankow|0|' ), "$:|gtfs/stoptime/77876452|gtfs-stoptime-headsign|Pankow|1|"
+T 'KEY.infer_secondary link, facet',  ( _ ) -> _.eqjson ( KEY.infer_secondary '%^|gtfs/stoptime|gtfs/trip/443|77876452|0|', '$:|gtfs/trip/443|headsign|Pankow|0|' ), "%:|gtfs/stoptime|gtfs-stoptime-headsign|Pankow|77876452|1|"
+T 'KEY.infer_pair link, facet',       ( _ ) -> _.eqjson ( KEY.infer_pair      '%^|gtfs/stoptime|gtfs/trip/443|77876452|0|', '$:|gtfs/trip/443|headsign|Pankow|0|' ), ["$:|gtfs/stoptime/77876452|gtfs-stoptime-headsign|Pankow|1|","%:|gtfs/stoptime|gtfs-stoptime-headsign|Pankow|77876452|1|"]
 
 # T.done()
-whisper "in diffs, parts that are missing (but should be there) are shown in", TRM.RED    'red'
-whisper "and       parts that should be there (but are missing) are shown in", TRM.GREEN  'green'
+
+if T.error_count > 0
+  whisper()
+  whisper "in diffs, parts that are missing (but should be there) are shown in", TRM.RED    'red'
+  whisper "and       parts that should be there (but are missing) are shown in", TRM.GREEN  'green'
+  whisper()
+  process.exit 1
+
+
+
 
 
