@@ -67,12 +67,12 @@ equivalence between alphabetical and lexicographical ordering breaks down quickl
 
 |  nr | chr |    CID     |     UTF-8 octets (hex.)     |                UTF-8 (binary)                |
 | --: | --- | ---------: | --------------------------- | -------------------------------------------- |
-|   1 | ␀   |      `u/0` | <tt>00</tt>                 | <tt>00▼00000</tt>                            |
-|   2 | 0   |     `u/30` | <tt><b>30</b></tt>          | <tt>00▲1000▼</tt>                            |
-|   3 | 1   |     `u/31` | <tt><b>31</b></tt>          | <tt>001100▼▲</tt>                            |
-|   4 | 2   |     `u/32` | <tt><b>32</b></tt>          | <tt>0▼1100▲0</tt>                            |
-|   5 | A   |     `u/41` | <tt><b>42</b></tt>          | <tt>0▲0000▼1</tt>                            |
-|   6 | B   |     `u/42` | <tt><b>42</b></tt>          | <tt>010000▲▼</tt>                            |
+|   1 | ␀   |      `u/0` | <tt>00</tt>                 | <tt>00000000</tt>                            |
+|   2 | 0   |     `u/30` | <tt><b>30</b></tt>          | <tt>00▲10000</tt>                            |
+|   3 | 1   |     `u/31` | <tt><b>31</b></tt>          | <tt>0011000▲</tt>                            |
+|   4 | 2   |     `u/32` | <tt><b>32</b></tt>          | <tt>001100▲0</tt>                            |
+|   5 | A   |     `u/41` | <tt><b>42</b></tt>          | <tt>0▲000001</tt>                            |
+|   6 | B   |     `u/42` | <tt><b>42</b></tt>          | <tt>010000▲0</tt>                            |
 |   7 | C   |     `u/43` | <tt><b>43</b></tt>          | <tt>0100001▲</tt>                            |
 |   8 | a   |     `u/61` | <tt><b>61</b></tt>          | <tt>01▲00001</tt>                            |
 |   9 | b   |     `u/62` | <tt><b>62</b></tt>          | <tt>011000▲0</tt>                            |
@@ -88,9 +88,17 @@ equivalence between alphabetical and lexicographical ordering breaks down quickl
 |  19 | �   |        ./. | <tt><b>FF</b></tt>          | <tt>1111▲111</tt>                            |
 
 > *Comments*—Shown in boldface are the UTF-8 bytes that cause one entry to be sorted after its predecessor;
-> shown as `▲` are the specific bits (of value `1`) that cause the sorting. As can be seen, sorting is done by
-> pairwise comparison of the bits representing two keys from left to right; as soon as there is a `1` in one
+> shown as `▲` are the specific bits (of value `1`) that cause a key to be sorted after the previous one.
+> As can be seen, sorting is done (in principle) by a
+> pairwise comparison of the bits representing two given keys from left to right; as soon as there is a `1` in one
 > key and a `0` in the other, the key with the `1` is sorted after the one with the `0`.
+>
+> Note that of the 19 entries shown here, the six keys coming after `ÿ` represent the majority of the world's
+> writing systems, including Greek, Cyrillic, Arabic, Ethiopic, Cherokee, Tifinagh, Georgian, Armenian,
+> Chinese, Japanese, Korean, and so on ad libitum. Keys 2 thru 13 represent roughly 200 out of the 112'956
+> printing codepoint defined in Unicode 7.0, that's 0.18%. Visit [the Unicode Slide Show](http://www.babelstone.co.uk/Unicode/unicode.html)
+> to appreciate the dimensions: you'll spend less than in minute within the equivalence of Latin-1, and
+> the remaining three hours with the rest of the world.
 >
 > **(1)** symbolically using a character from the Unicode Command Pictures block; **(18)** the last
 > legal codepoint of Unicode in the Supplementary Private Use Area B; appearance undefined; **(19)** as
