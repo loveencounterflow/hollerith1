@@ -36,6 +36,7 @@ their equivalents in `levelup`):
 * **a `set key, value` (`levelup`: `put`) operation that stores a key / value pair (let's call that a 'facet' for short),**
 * **a `get key` (`levelup`: `get`) operation that either yields the value that was `put` under that key, or else throws an
   error in case the key is not found,**
+* **a `drop key` (`levelup`: `del`) operation that erases a key and its value from the records,**
 
 and, most interestingly:
 
