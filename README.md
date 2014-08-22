@@ -67,7 +67,7 @@ equivalence between alphabetical and lexicographical ordering breaks down quickl
 
 |  nr | chr |    CID     |     UTF-8 octets (hex.)     |                UTF-8 (binary)                |
 | --: | --- | ---------: | --------------------------- | -------------------------------------------- |
-|   1 | ␀   |      `u/0` | <tt>00</tt>                 | <tt>00000000</tt>                            |
+|   1 | ␀*  |      `u/0` | <tt>00</tt>                 | <tt>00000000</tt>                            |
 |   2 | 0   |     `u/30` | <tt><b>30</b></tt>          | <tt>00▲10000</tt>                            |
 |   3 | 1   |     `u/31` | <tt><b>31</b></tt>          | <tt>0011000▲</tt>                            |
 |   4 | 2   |     `u/32` | <tt><b>32</b></tt>          | <tt>001100▲0</tt>                            |
@@ -84,8 +84,8 @@ equivalence between alphabetical and lexicographical ordering breaks down quickl
 |  15 | 中  |   `u/4e2d` | <tt><b>E4</b> B8 AD</tt>    | <tt>11▲00100 10111000 10101101</tt>          |
 |  16 | 𠀀   |  `u/20000` | <tt><b>F0</b> A0 80 80</tt> | <tt>111▲0000 10100000 10000000 10000000</tt> |
 |  17 | 𠀁   |  `u/20001` | <tt>F0 A0 80 <b>81</b></tt> | <tt>11110000 10100000 10000000 1000000▲</tt> |
-|  18 | 􏿽   | `u/10fffd` | <tt><b>F4</b> 8F BF BD</tt> | <tt>11110▲00 10001111 10111111 10111101</tt> |
-|  19 | �   |        ./. | <tt><b>FF</b></tt>          | <tt>1111▲111</tt>                            |
+|  18 | 􏿽*  | `u/10fffd` | <tt><b>F4</b> 8F BF BD</tt> | <tt>11110▲00 10001111 10111111 10111101</tt> |
+|  19 | �*  |        ./. | <tt><b>FF</b></tt>          | <tt>1111▲111</tt>                            |
 
 > *Comments*—Shown in boldface are the UTF-8 bytes that cause one entry to be sorted after its predecessor;
 > shown as `▲` are the specific bits (of value `1`) that cause a key to be sorted after the previous one.
@@ -96,9 +96,9 @@ equivalence between alphabetical and lexicographical ordering breaks down quickl
 > Note that of the 19 entries shown here, the six keys coming after `ÿ` represent the majority of the world's
 > writing systems, including Greek, Cyrillic, Arabic, Ethiopic, Cherokee, Tifinagh, Georgian, Armenian,
 > Chinese, Japanese, Korean, and so on ad libitum. Keys 2 thru 13 represent roughly 200 out of the 112'956
-> printing codepoint defined in Unicode 7.0, that's 0.18%. Visit [the Unicode Slide Show](http://www.babelstone.co.uk/Unicode/unicode.html)
-> to appreciate the dimensions: you'll spend less than in minute within the equivalence of Latin-1, and
-> the remaining three hours with the rest of the world.
+> printing codepoints defined in Unicode 7.0, that's 0.18%. Visit [the Unicode Slide Show](http://www.babelstone.co.uk/Unicode/unicode.html)
+> to appreciate the dimensions: you'll spend less than a minute within the comfy equivalence of Latin-1, and
+> the remaining *three hours* with the rest of the world.
 >
 > **(1)** symbolically using a character from the Unicode Command Pictures block; **(18)** the last
 > legal codepoint of Unicode in the Supplementary Private Use Area B; appearance undefined; **(19)** as
