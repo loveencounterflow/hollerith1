@@ -54,7 +54,7 @@ there are no further considerations of a linguistic, orthographic or cultural na
 
 Because early computers *were* in fact mechanical beasts that operated quite 'close to the metal' (resp. the
 holes on punched cards that were detected with rods, electric brushes, or photosensors, as the case may be),
-early encoding schemes had a big impact on whether or not you could sort that huge card deck with customer
+early encoding schemes had a huge impact on whether or not you could sort that huge card deck with customer
 names and sales figures in a convenient manner using period machinery. Incidentally, this consideration is
 the reason why, to this day, Unicode's first block (Basic Latin, a holdover from the 1960s' 7bit ASCII
 standard) looks so orderly with its contiguous ranges that comprise the digits `0`&nbsp;⋯&nbsp;`9`, the
@@ -87,7 +87,12 @@ equivalence between alphabetical and lexicographical ordering breaks down quickl
 |  18 | 􏿽   | `u/10fffd` | <tt><b>F4</b> 8F BF BD</tt> | <tt>11110▲00 10001111 10111111 10111101</tt> |
 |  19 | �   |        ./. | <tt><b>FF</b></tt>          | <tt>1111▲111</tt>                            |
 
-> *Comments*—**(1)** symbolically using a character from the Unicode Command Pictures block; **(18)** the last
+> *Comments*—Shown in boldface are the UTF-8 bytes that cause one entry to be sorted after its predecessor,
+> shown as `▲` are the specific bits (of value `1`) that cause the sorting. As can be seen, sorting is done by
+> pairwise comparison of the bits representing two keys from left to right; as soon as there is a `1` in one
+> key and a `0` in the other, the key with the `1` is sorted after the one with the `0`.
+>
+> **(1)** symbolically using a character from the Unicode Command Pictures block; **(18)** the last
 > legal codepoint of Unicode in the Supplementary Private Use Area B; appearance undefined; **(19)** as
 > `0xff` is not (the start of) a legal UTF-8 sequence, this byte will cause a � `u/fffd` Replacement
 > Character to appear in the decoded output; some decoders may throw an error upon hitting such an illegal
