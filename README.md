@@ -3,6 +3,7 @@
 
 - [hollerith](#hollerith)
 - [What is LevelDB?](#what-is-leveldb)
+	- [Lexicographic Order and UTF-8](#lexicographic-order-and-utf-8)
 - [xxx](#xxx)
 
 > **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
@@ -27,8 +28,8 @@ you might expect a modern database should provide; in particular, LevelDB
 * does not provide indexes on data;
 * does not have data types or even have a concept of string encoding—all keys and values are just
   arbitrary byte sequences;
-* intricate transaction handling (although it does feature compound batch operations that either succeed
-  or fail with no partial commits);
+* does not have intricate transaction handling (although it does feature compound batch operations that
+  either succeed or fail with no partial commits);
 
 What LevelDB does have, on the other hand is this (names given are for `hollerith` plus, in brackets,
 their equivalents in `levelup`):
@@ -43,8 +44,39 @@ and, most interestingly:
 * **a `read ...` (`levelup`: `createReadStream`) operation that walks over keys, lexicographically
   ordered by their byte sequences; this can optionally be confined by setting a lower and an upper bound**.
 
-The bit with '[lexicographically ordered](http://en.wikipedia.org/wiki/Lexicographical_order)' deserves some
-explanation.
+### Lexicographic Order and UTF-8
+
+The term '[lexicographically ordered](http://en.wikipedia.org/wiki/Lexicographical_order)' deserves some
+explanation: lexicographical ordering (in computer science) is somewhat different from alphabetical ordering
+(used in phone directories, card files and dictionaries) in that only the underlying bits of the binary
+representation are considered to decide what comes first and what comes next.
+
+When using Unicode, the naïve, old-fashioned way of constructing an upper limit by appending Latin-1 `ÿ`
+(`0xff`) to the key does *not* work.
+
+
+"The lexicographic sorting order of UCS-4 strings is preserved."—[RFC 2044](https://www.ietf.org/rfc/rfc2044.txt)
+
+```
+'a'     0x61                  01100001
+'b'     0x62                  01100010
+'c'     0x63                  01100011
+'1'     0xc3 0xa4             11000011 10100100
+'ÿ'     0xc3 0xbf             11000011 10111111
+'Θ'     0xce 0x98             11001110 10011000
+'中'     0xe4 0xb8 0xad        11100100 10111000 10101101
+'𠀀'     0xf0 0xa0 0x80 0x80   11110000 10100000 10000000 10000000
+'�'     0xff                  11111111
+```
+
+
+
+
+
+
+
+
+
 
 ## xxx
 

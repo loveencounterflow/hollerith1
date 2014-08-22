@@ -32,6 +32,10 @@ eq                        = BNP.equals.bind BNP
 neq                       = ( a, b ) -> not eq a, b
 KEY                       = require './scratch/KEY'
 DIFF                      = require 'coffeenode-diff'
+#...........................................................................................................
+P                         = require 'pipedreams'
+# pimp_stream               = P.create_readstream.pimp
+$                         = P.$.bind P
 
 #-----------------------------------------------------------------------------------------------------------
 eqs = ( probe, setpoint ) ->
@@ -101,5 +105,24 @@ if T.error_count > 0
 
 
 
+db = ( require 'level' ) '/tmp/foodb'
+db.put (new Buffer [ 0xff ] ), (new Buffer [ 0xff ] ), ( error, result ) ->
+  throw error if error?
+  db.createReadStream keyEncoding: 'binary'
+    .pipe P.$show()
+
+keys = [
+  [0x61]
+  [0x62]
+  [0x63]
+  [0xc3,0xa4]
+  [0xc3,0xbf]
+  [0xce,0x98]
+  [0xe4,0xb8,0xad]
+  [0xf0,0xa0,0x80,0x80]
+  [0xff,]
+  ]
+for key in keys
+  debug ( byte.toString 2 for byte in key )
 
 
