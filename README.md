@@ -96,19 +96,19 @@ equivalence between alphabetical and lexicographical ordering breaks down quickl
 1960's computing sure was cumbersome by today's standards; however, it was also simpler in many ways, not
 least because the equivalence between a 'byte' (or other unit of fixed bit-length) and a 'character' (a unit
 of written text, representing natural language, programming instructions or business data) could always be
-relied upon. This equivalence of ye old computer shoppe has become a deeply entrenched thinking-habit in the
-mind of programmers, which sometimes leads to curious and fallacious shortcomings in software to this day.
+relied upon. This equivalence has been carried over from the punched cards and teletype terminals used
+in ye old computer shoppe in days of lore; it has since become a deeply entrenched thinking-habit in the
+mind of many a programmer, which sometimes leads to curious and fallacious results in software to this day.
 
-Importantly for `hollerith`, which is based on the way that LevelDB sorts its (UTF-8 encoded, binary) keys,
-the astute reader will need mere seconds to dig up the postings of some helpful soul who publicly recommends
+The astute reader will need mere seconds to dig up the postings of some helpful soul who publicly recommends
 to 'end your upper limit keys with a `ÿ`', the reasoning apparently being that, since `ÿ` is encoded as
 `0xff` (in Latin-1) and `0xff` is the highest encodable byte-value, there can not be a key that comes after
 that, for the Earth is flat and dragons be beyond the eighteth bit.
 
 As the above table shows, this is wrong as soon as you ditch the (in NodeJS) poorly-supported legacy
-encoding that Latin-1 / Latin-9 / CP1252 and like schemes have become and embrace, instead, the one standard
-that is rightfully (in spite of any shortcomings that this standard possesses, too) considered 'The
-Standard' in 2014—Unicode encoded using UTF-8.
+encodings that Latin-1 / Latin-9 / CP1252 and like schemes have become and embrace, instead, the one
+standard that is rightfully (in spite of any shortcomings that it possesses, too) considered 'The Standard'
+in 2014—i.e. character repertoire Unicode / ISO 10646, encoded as UTF-8.
 
 When using Unicode, the naïve, old-fashioned way of constructing an upper limit by appending Latin-1 `ÿ`
 (`0xff`) to the key does *not* work in UTF-8.
