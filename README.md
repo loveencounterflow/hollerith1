@@ -48,8 +48,16 @@ and, most interestingly:
 
 The term '[lexicographically ordered](http://en.wikipedia.org/wiki/Lexicographical_order)' deserves some
 explanation: lexicographical ordering (in computer science) is somewhat different from alphabetical ordering
-(used in phone directories, card files and dictionaries) in that only the underlying bits of the binary
-representation are considered to decide what comes first and what comes next.
+(used in phone directories, card files and dictionaries) in that *only the underlying bits of the binary
+representation* are considered in a purely mechanical way to decide what comes first and what comes next;
+there are no further considerations of a linguistic, orthographic or cultural nature made.
+
+Because early
+computers *were* in fact mechanical beasts that operated quite 'close to the metal' (resp. the holes on
+punched cards that were detected with rods, electric brushes, or photosensors, as the case may be), early
+encoding schemes had a big impact on whether or not you could sort your data in a convenient manner using
+period machinery or not—this is the reason why, to this day, Unicode's first block (Basic Latin) still looks
+quite orderly: there are contiguous ranges that comprise the digits 0⋯9, the upper case letters A⋯Z
 
 When using Unicode, the naïve, old-fashioned way of constructing an upper limit by appending Latin-1 `ÿ`
 (`0xff`) to the key does *not* work.
@@ -73,7 +81,7 @@ UCS-2
 |   9 | 𠀀   |  `u/20000` | <tt><b>0xf0</b> 0xa0 0x80 0x80</tt> | <tt>111▲0000 10100000 10000000 10000000</tt> |
 |  10 | 𠀁   |  `u/20001` | <tt>0xf0 0xa0 0x80 <b>0x81</b></tt> | <tt>11110000 10100000 10000000 1000000▲</tt> |
 |  11 | 􏿽   | `u/10fffd` | <tt><b>0xf4</b> 0x8f 0xbf 0xbd</tt> | <tt>11110▲00 10001111 10111111 10111101</tt> |
-|  12 | �   |        ./. | <tt><b>0xff</b></tt>                | <nobr><tt>1111▲111</tt></nobr>                            |
+|  12 | �   |        ./. | <tt><b>0xff</b></tt>                | <tt>1111▲111</tt>                            |
 
 > *Comments*—**(1)** symbolically using a character from the Unicode Command Pictures block; **(11)** the last
 > legal codepoint of Unicode in the Supplementary Private Use Area B; appearance undefined; **(12)** as
