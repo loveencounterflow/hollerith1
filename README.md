@@ -67,12 +67,12 @@ equivalence between alphabetical and lexicographical ordering breaks down quickl
 
 |  nr | chr |    CID     |     UTF-8 octets (hex.)     |                UTF-8 (binary)                |
 | --: | --- | ---------: | --------------------------- | -------------------------------------------- |
-|   1 | ␀   |      `u/0` | <tt>00</tt>                 | <tt>00000000</tt>                            |
-|   2 | 0   |     `u/30` | <tt><b>30</b></tt>          | <tt>00▲10000</tt>                            |
-|   3 | 1   |     `u/31` | <tt><b>31</b></tt>          | <tt>0011000▲</tt>                            |
-|   4 | 2   |     `u/32` | <tt><b>32</b></tt>          | <tt>001100▲0</tt>                            |
-|   5 | A   |     `u/41` | <tt><b>42</b></tt>          | <tt>0▲000001</tt>                            |
-|   6 | B   |     `u/42` | <tt><b>42</b></tt>          | <tt>010000▲0</tt>                            |
+|   1 | ␀   |      `u/0` | <tt>00</tt>                 | <tt>00▼00000</tt>                            |
+|   2 | 0   |     `u/30` | <tt><b>30</b></tt>          | <tt>00▲1000▼</tt>                            |
+|   3 | 1   |     `u/31` | <tt><b>31</b></tt>          | <tt>001100▼▲</tt>                            |
+|   4 | 2   |     `u/32` | <tt><b>32</b></tt>          | <tt>0▼1100▲0</tt>                            |
+|   5 | A   |     `u/41` | <tt><b>42</b></tt>          | <tt>0▲0000▼1</tt>                            |
+|   6 | B   |     `u/42` | <tt><b>42</b></tt>          | <tt>010000▲▼</tt>                            |
 |   7 | C   |     `u/43` | <tt><b>43</b></tt>          | <tt>0100001▲</tt>                            |
 |   8 | a   |     `u/61` | <tt><b>61</b></tt>          | <tt>01▲00001</tt>                            |
 |   9 | b   |     `u/62` | <tt><b>62</b></tt>          | <tt>011000▲0</tt>                            |
@@ -87,7 +87,7 @@ equivalence between alphabetical and lexicographical ordering breaks down quickl
 |  18 | 􏿽   | `u/10fffd` | <tt><b>F4</b> 8F BF BD</tt> | <tt>11110▲00 10001111 10111111 10111101</tt> |
 |  19 | �   |        ./. | <tt><b>FF</b></tt>          | <tt>1111▲111</tt>                            |
 
-> *Comments*—Shown in boldface are the UTF-8 bytes that cause one entry to be sorted after its predecessor,
+> *Comments*—Shown in boldface are the UTF-8 bytes that cause one entry to be sorted after its predecessor;
 > shown as `▲` are the specific bits (of value `1`) that cause the sorting. As can be seen, sorting is done by
 > pairwise comparison of the bits representing two keys from left to right; as soon as there is a `1` in one
 > key and a `0` in the other, the key with the `1` is sorted after the one with the `0`.
