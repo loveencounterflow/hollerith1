@@ -54,6 +54,7 @@ representation are considered to decide what comes first and what comes next.
 When using Unicode, the naïve, old-fashioned way of constructing an upper limit by appending Latin-1 `ÿ`
 (`0xff`) to the key does *not* work.
 
+UCS-2
 
 "The lexicographic sorting order of UCS-4 strings is preserved."—[RFC 2044](https://www.ietf.org/rfc/rfc2044.txt)
 
@@ -64,12 +65,12 @@ When using Unicode, the naïve, old-fashioned way of constructing an upper limit
 | `'a'`  | `0x61`                | `01100001`                            |
 | `'b'`  | `0x62`                | <tt>011000<b>1</b>0</tt>                            |
 | `'c'`  | `0x63`                | <tt>0110001<b>1</b></tt>                            |
-| `'1'`  | `0xc3 0xa4`           | <tt>11000011 10100100</tt>                   |
-| `'ÿ'`  | `0xc3 0xbf`           | <tt>11000011 10111111</tt>                   |
-| `'Θ'`  | `0xce 0x98`           | <tt>11001110 10011000</tt>                   |
-| `'中'` | `0xe4 0xb8 0xad`      | <tt>11100100 10111000 10101101</tt>          |
-| `'𠀀'`  | `0xf0 0xa0 0x80 0x80` | <tt>11110000 10100000 10000000 10000000</tt> |
-| `'�'`  | `0xff`                | <tt>11111111</tt>                            |
+| `'1'`  | `0xc3 0xa4`           | <tt>11000011 <b>1</b>0100100</tt>                   |
+| `'ÿ'`  | `0xc3 0xbf`           | <tt>11000011 <b>1</b>0111111</tt>                   |
+| `'Θ'`  | `0xce 0x98`           | <tt>1100<b>1</b>110 10011000</tt>                   |
+| `'中'` | `0xe4 0xb8 0xad`      | <tt>11<b>1</b>00100 10111000 10101101</tt>          |
+| `'𠀀'`  | `0xf0 0xa0 0x80 0x80` | <tt>111<b>1</b>0000 10100000 10000000 10000000</tt> |
+| `'�'`  | `0xff`                | <tt>1111<b>1</b>111</tt>                            |
 
 
 
