@@ -56,12 +56,12 @@ Because early computers *were* in fact mechanical beasts that operated quite 'cl
 holes on punched cards that were detected with rods, electric brushes, or photosensors, as the case may be),
 early encoding schemes had a big impact on whether or not you could sort that huge card deck with customer
 names and sales figures in a convenient manner using period machinery. Incidentally, this consideration is
-the reason why, to this day, Unicode's first block (Basic Latin, a holdover from the 1960s' 7bit
-ASCII standard) looks so orderly with its contiguous ranges that comprise the digits `0`&nbsp;⋯&nbsp;`9`,
-the upper case letters `A`&nbsp;⋯&nbsp;`Z`, and the lower case letters `a`&nbsp;⋯&nbsp;`z`. As shown below
-for the letters `a`, `b` and `c`, this makes binary-based lexicographic sorting straightforward and
-intuitive.
-
+the reason why, to this day, Unicode's first block (Basic Latin, a holdover from the 1960s' 7bit ASCII
+standard) looks so orderly with its contiguous ranges that comprise the digits `0`&nbsp;⋯&nbsp;`9`, the
+upper case letters `A`&nbsp;⋯&nbsp;`Z`, and the lower case letters `a`&nbsp;⋯&nbsp;`z`, all of them in
+alphabetic respectively numerical order. As shown below, this property makes binary-based lexicographic
+sorting straightforward and intuitive. The table also shows that as soon as we leave that comfort zone, the
+equivalence between alphabetical and lexicographical ordering breaks down quickly:
 
 
 
@@ -93,19 +93,22 @@ intuitive.
 > Character to appear in the decoded output; some decoders may throw an error upon hitting such an illegal
 > sequence.
 
-1960's computing sure was cumbersome by todays standard; however, it was also simpler in many ways, not
+1960's computing sure was cumbersome by today's standards; however, it was also simpler in many ways, not
 least because the equivalence between a 'byte' (or other unit of fixed bit-length) and a 'character' (a unit
 of written text, representing natural language, programming instructions or business data) could always be
-relied on. This equivalence has become a deeply entrenched in the mind of programmers, which leads to
-curious and fallacious shortcomings in software to this day. Importantly for `hollerith`, which is based on
-the way that LevelDB sorts its (UTF-8 encoded, binary) keys, the astute reader will need mere seconds to dig
-up some helpful and knowledgable soul who recommends to 'end your upper limit keys with a `ÿ`', the
-reasoning being that, since `ÿ` is encoded as `0xff` in Latin-1 (and Unicode), there can not be a key that
-comes after that.
+relied upon. This equivalence of ye old computer shoppe has become a deeply entrenched thinking-habit in the
+mind of programmers, which sometimes leads to curious and fallacious shortcomings in software to this day.
 
-As the above table shows, this is wrong as soon as you switch from the poorly-supported (in NodeJS) legacy
-encoding that the once-prevalent Latin-1 a.k.a. ISO-8859-1 has become to the one standard that is rightfully
-considered 'the Standard' in 2014—Unicode encoded using UTF-8.
+Importantly for `hollerith`, which is based on the way that LevelDB sorts its (UTF-8 encoded, binary) keys,
+the astute reader will need mere seconds to dig up the postings of some helpful soul who publicly recommends
+to 'end your upper limit keys with a `ÿ`', the reasoning apparently being that, since `ÿ` is encoded as
+`0xff` (in Latin-1) and `0xff` is the highest encodable byte-value, there can not be a key that comes after
+that, for the Earth is flat and dragons be beyond the eighteth bit.
+
+As the above table shows, this is wrong as soon as you ditch the (in NodeJS) poorly-supported legacy
+encoding that Latin-1 / Latin-9 / CP1252 and like schemes have become and embrace, instead, the one standard
+that is rightfully (in spite of any shortcomings that this standard possesses, too) considered 'The
+Standard' in 2014—Unicode encoded using UTF-8.
 
 When using Unicode, the naïve, old-fashioned way of constructing an upper limit by appending Latin-1 `ÿ`
 (`0xff`) to the key does *not* work in UTF-8.
