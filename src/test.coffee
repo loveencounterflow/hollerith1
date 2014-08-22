@@ -106,7 +106,8 @@ if T.error_count > 0
 
 
 db = ( require 'level' ) '/tmp/foodb'
-db.put (new Buffer [ 0xff ] ), (new Buffer [ 0xff ] ), ( error, result ) ->
+# db.put (new Buffer [ 0xff ] ), (new Buffer [ 0xff ] ), ( error, result ) ->
+db.put '􏿽', '􏿽', ( error, result ) ->
   throw error if error?
   db.createReadStream keyEncoding: 'binary'
     .pipe P.$show()
@@ -120,6 +121,7 @@ keys = [
   [0xce,0x98]
   [0xe4,0xb8,0xad]
   [0xf0,0xa0,0x80,0x80]
+  [0xf4,0x8f,0xbf,0xbd,]
   [0xff,]
   ]
 for key in keys
