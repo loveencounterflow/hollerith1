@@ -2,6 +2,7 @@
 
 
 - [hollerith](#hollerith)
+- [What is LevelDB?](#what-is-leveldb)
 - [xxx](#xxx)
 
 > **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
@@ -13,8 +14,34 @@
 use LevelDB like 1969
 
 
-## xxx
+## What is LevelDB?
 
+LevelDB is fast key/value store developed and opensourced by Google and made readily available to NodeJS
+folks as `npm install level` (see [level](https://github.com/level/level) and
+[levelup](https://github.com/rvagg/node-levelup)).
+
+LevelDB is very focussed on doing this one thing—being a key/value store—and forgoes a lot of features
+you might expect a modern database should provide; in particular, LevelDB
+
+* is a pure in-process DB; there are no other communication mechanisms like an HTTP API or somesuch;
+* does not provide indexes on data;
+* does not have data types and does not even have a concept of string encoding—all keys and values are just
+	arbitrary byte sequences;
+* intricate transaction handling (but see below for batches);
+
+
+What LevelDB does have, on the other hand is this:
+
+* a `put key, value` operation that stores a key / value pair (let's call that a 'facet' for short),
+* a `get key` operation that reads a facet and throws an error in case the key is not found,
+
+and, most interestingly:
+
+* **a read operation that walks over all keys, lexicographically ordered by their byte sequences, which can
+	optionally be confined by setting a lower and an upper bound**.
+
+
+## xxx
 
 ![](https://github.com/loveencounterflow/hollerith/raw/master/art/082.jpg)
 
