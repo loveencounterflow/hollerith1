@@ -101,7 +101,7 @@ equivalence between alphabetical and lexicographical ordering breaks down quickl
 > the remaining *three hours* with the rest of the world.
 >
 > **(1)** symbolically using a character from the Unicode Command Pictures block; **(18)** the last
-> legal codepoint of Unicode in the Supplementary Private Use Area B; appearance undefined; **(19)** as
+> legal codepoint of Unicode, located in the Supplementary Private Use Area B; appearance undefined; **(19)** as
 > `0xff` is not (the start of) a legal UTF-8 sequence, this byte will cause a � `u/fffd` Replacement
 > Character to appear in the decoded output; some decoders may throw an error upon hitting such an illegal
 > sequence.
@@ -109,9 +109,9 @@ equivalence between alphabetical and lexicographical ordering breaks down quickl
 1960's computing sure was cumbersome by today's standards; however, it was also simpler in many ways, not
 least because the equivalence between a 'byte' (or other unit of fixed bit-length) and a 'character' (a unit
 of written text, representing natural language, programming instructions or business data) could always be
-relied upon. This equivalence has been carried over from the punched cards and teletype terminals used
-in ye old computer shoppe in days of lore; it has since become a deeply entrenched thinking-habit in the
-mind of many a programmer, which sometimes leads to curious and fallacious results in software to this day.
+relied upon. This equivalence so evident in the punched cards and teletype terminals used by ye old computer
+shoppe in days of lore has been carried over and since become a deeply entrenched thinking-habit in the mind
+of many a programmer, which sometimes leads to curious and fallacious results in software to this day.
 
 The astute reader will need mere seconds to dig up the postings of some helpful soul who publicly recommends
 to 'end your upper limit keys with a `ÿ`', the reasoning apparently being that, since `ÿ` is encoded as
@@ -123,14 +123,15 @@ encodings that Latin-1 / Latin-9 / CP1252 and like schemes have become and embra
 standard that is rightfully (in spite of any shortcomings that it possesses, too) considered 'The Standard'
 in 2014—i.e. character repertoire Unicode / ISO 10646, encoded as UTF-8.
 
+<!-- Worse still, one can often see `~` as a delimiter.
+
 When using Unicode, the naïve, old-fashioned way of constructing an upper limit by appending Latin-1 `ÿ`
 (`0xff`) to the key does *not* work in UTF-8.
 
-Worse still, one can often see `~` as a delimiter.
 
 100'000 printable codepoints; using `ÿ` (`0xff`) encoded as `C3 BF` means that roughly 998‰ of all
 printable codepoints are *not* caught
-
+ -->
 
 
 
