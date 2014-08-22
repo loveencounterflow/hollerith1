@@ -56,18 +56,12 @@ Because early computers *were* in fact mechanical beasts that operated quite 'cl
 holes on punched cards that were detected with rods, electric brushes, or photosensors, as the case may be),
 early encoding schemes had a big impact on whether or not you could sort that huge card deck with customer
 names and sales figures in a convenient manner using period machinery. Incidentally, this consideration is
-the reason why, to this day, Unicode's first block (Basic Latin, a holdover from the early 1960s' 7bit
-ASCII standard) looks so orderly: there are contiguous ranges that comprise the digits `0`&nbsp;⋯&nbsp;`9`,
+the reason why, to this day, Unicode's first block (Basic Latin, a holdover from the 1960s' 7bit
+ASCII standard) looks so orderly with its contiguous ranges that comprise the digits `0`&nbsp;⋯&nbsp;`9`,
 the upper case letters `A`&nbsp;⋯&nbsp;`Z`, and the lower case letters `a`&nbsp;⋯&nbsp;`z`. As shown below
 for the letters `a`, `b` and `c`, this makes binary-based lexicographic sorting straightforward and
-intuitive .
+intuitive.
 
-When using Unicode, the naïve, old-fashioned way of constructing an upper limit by appending Latin-1 `ÿ`
-(`0xff`) to the key does *not* work.
-
-UCS-2
-
-> "The lexicographic sorting order of UCS-4 strings is preserved."—[RFC 2044](https://www.ietf.org/rfc/rfc2044.txt)
 
 
 
@@ -83,21 +77,50 @@ UCS-2
 |   8 | a   |     `u/61` | <tt><b>61</b></tt>          | <tt>01▲00001</tt>                            |
 |   9 | b   |     `u/62` | <tt><b>62</b></tt>          | <tt>011000▲0</tt>                            |
 |  10 | c   |     `u/63` | <tt><b>63</b></tt>          | <tt>0110001▲</tt>                            |
-|  11 | ä   |     `u/e4` | <tt>C3 <b>A4</b></tt>       | <tt>11000011 ▲0100100</tt>                   |
-|  12 | ÿ   |     `u/ff` | <tt>C3 <b>BF</b></tt>       | <tt>11000011 001▲1111</tt>                   |
-|  13 | Θ   |   `u/0398` | <tt><b>CE</b> 98</tt>       | <tt>1100▲110 10011000</tt>                   |
-|  14 | 中  |   `u/4e2d` | <tt><b>E4</b> B8 AD</tt>    | <tt>11▲00100 10111000 10101101</tt>          |
-|  15 | 𠀀   |  `u/20000` | <tt><b>F0</b> A0 80 80</tt> | <tt>111▲0000 10100000 10000000 10000000</tt> |
-|  16 | 𠀁   |  `u/20001` | <tt>F0 A0 80 <b>81</b></tt> | <tt>11110000 10100000 10000000 1000000▲</tt> |
-|  17 | 􏿽   | `u/10fffd` | <tt><b>F4</b> 8F BF BD</tt> | <tt>11110▲00 10001111 10111111 10111101</tt> |
-|  18 | �   |        ./. | <tt><b>FF</b></tt>          | <tt>1111▲111</tt>                            |
+|  11 | ~   |     `u/7e` | <tt><b>7E</b></tt>          | <tt>011▲1110</tt>                            |
+|  12 | ä   |     `u/e4` | <tt>C3 <b>A4</b></tt>       | <tt>11000011 ▲0100100</tt>                   |
+|  13 | ÿ   |     `u/ff` | <tt>C3 <b>BF</b></tt>       | <tt>11000011 001▲1111</tt>                   |
+|  14 | Θ   |   `u/0398` | <tt><b>CE</b> 98</tt>       | <tt>1100▲110 10011000</tt>                   |
+|  15 | 中  |   `u/4e2d` | <tt><b>E4</b> B8 AD</tt>    | <tt>11▲00100 10111000 10101101</tt>          |
+|  16 | 𠀀   |  `u/20000` | <tt><b>F0</b> A0 80 80</tt> | <tt>111▲0000 10100000 10000000 10000000</tt> |
+|  17 | 𠀁   |  `u/20001` | <tt>F0 A0 80 <b>81</b></tt> | <tt>11110000 10100000 10000000 1000000▲</tt> |
+|  18 | 􏿽   | `u/10fffd` | <tt><b>F4</b> 8F BF BD</tt> | <tt>11110▲00 10001111 10111111 10111101</tt> |
+|  19 | �   |        ./. | <tt><b>FF</b></tt>          | <tt>1111▲111</tt>                            |
 
-> *Comments*—**(1)** symbolically using a character from the Unicode Command Pictures block; **(17)** the last
-> legal codepoint of Unicode in the Supplementary Private Use Area B; appearance undefined; **(18)** as
+> *Comments*—**(1)** symbolically using a character from the Unicode Command Pictures block; **(18)** the last
+> legal codepoint of Unicode in the Supplementary Private Use Area B; appearance undefined; **(19)** as
 > `0xff` is not (the start of) a legal UTF-8 sequence, this byte will cause a � `u/fffd` Replacement
 > Character to appear in the decoded output; some decoders may throw an error upon hitting such an illegal
 > sequence.
 
+1960's computing sure was cumbersome by todays standard; however, it was also simpler in many ways, not
+least because the equivalence between a 'byte' (or other unit of fixed bit-length) and a 'character' (a unit
+of written text, representing natural language, programming instructions or business data) could always be
+relied on. This equivalence has become a deeply entrenched in the mind of programmers, which leads to
+curious and fallacious shortcomings in software to this day. Importantly for `hollerith`, which is based on
+the way that LevelDB sorts its (UTF-8 encoded, binary) keys, the astute reader will need mere seconds to dig
+up some helpful and knowledgable soul who recommends to 'end your upper limit keys with a `ÿ`', the
+reasoning being that, since `ÿ` is encoded as `0xff` in Latin-1 (and Unicode), there can not be a key that
+comes after that.
+
+As the above table shows, this is wrong as soon as you switch from the poorly-supported (in NodeJS) legacy
+encoding that the once-prevalent Latin-1 a.k.a. ISO-8859-1 has become to the one standard that is rightfully
+considered 'the Standard' in 2014—Unicode encoded using UTF-8.
+
+When using Unicode, the naïve, old-fashioned way of constructing an upper limit by appending Latin-1 `ÿ`
+(`0xff`) to the key does *not* work in UTF-8.
+
+Worse still, one can often see `~` as a delimiter.
+
+100'000 printable codepoints; using `ÿ` (`0xff`) encoded as `C3 BF` means that roughly 998‰ of all
+printable codepoints are *not* caught
+
+
+
+
+UCS-2
+
+> "The lexicographic sorting order of UCS-4 strings is preserved."—[RFC 2044](https://www.ietf.org/rfc/rfc2044.txt)
 
 
 ## xxx
