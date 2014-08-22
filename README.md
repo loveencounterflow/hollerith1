@@ -54,12 +54,13 @@ there are no further considerations of a linguistic, orthographic or cultural na
 
 Because early computers *were* in fact mechanical beasts that operated quite 'close to the metal' (resp. the
 holes on punched cards that were detected with rods, electric brushes, or photosensors, as the case may be),
-early encoding schemes had a big impact on whether or not you could sort your data in a convenient manner
-using period machinery or not—this is the reason why, to this day, Unicode's first block (Basic Latin,  a
-holdover from the early 1960s' 7bit ASCII standard) looks so orderly: there are contiguous ranges that
-comprise the digits `0`&nbsp;⋯&nbsp;`9`, the upper case letters `A`&nbsp;⋯&nbsp;`Z`, and the lower case
-letters `a`&nbsp;⋯&nbsp;`z`. As shown below for the letters `a`, `b` and `c`, this makes binary-based
-lexicographic sorting straightforward and intuitive .
+early encoding schemes had a big impact on whether or not you could sort that huge card deck with customer
+names and sales figures in a convenient manner using period machinery. Incidentally, this consideration is
+the reason why, to this day, Unicode's first block (Basic Latin, a holdover from the early 1960s' 7bit
+ASCII standard) looks so orderly: there are contiguous ranges that comprise the digits `0`&nbsp;⋯&nbsp;`9`,
+the upper case letters `A`&nbsp;⋯&nbsp;`Z`, and the lower case letters `a`&nbsp;⋯&nbsp;`z`. As shown below
+for the letters `a`, `b` and `c`, this makes binary-based lexicographic sorting straightforward and
+intuitive .
 
 When using Unicode, the naïve, old-fashioned way of constructing an upper limit by appending Latin-1 `ÿ`
 (`0xff`) to the key does *not* work.
