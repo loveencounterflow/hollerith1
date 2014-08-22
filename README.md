@@ -39,9 +39,11 @@ their equivalents in `levelup`):
 
 and, most interestingly:
 
-* **a `read ...` (`levelup`: `createReadStream`) operation that walks over all keys, lexicographically
-  ordered by their byte sequences, which can optionally be confined by setting a lower and an upper bound**.
+* **a `read ...` (`levelup`: `createReadStream`) operation that walks over keys, lexicographically
+  ordered by their byte sequences; this can optionally be confined by setting a lower and an upper bound**.
 
+The bit with '[lexicographically ordered](http://en.wikipedia.org/wiki/Lexicographical_order)' deserves some
+explanation.
 
 ## xxx
 
