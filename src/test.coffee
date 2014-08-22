@@ -107,12 +107,15 @@ if T.error_count > 0
 
 db = ( require 'level' ) '/tmp/foodb'
 # db.put (new Buffer [ 0xff ] ), (new Buffer [ 0xff ] ), ( error, result ) ->
-db.put 'A', 'A', ( error, result ) ->
+db.put '1', '1', ( error, result ) ->
   throw error if error?
   db.createReadStream keyEncoding: 'binary'
     .pipe P.$show()
 
 keys = [
+  [0x30]
+  [0x31]
+  [0x32]
   [0x41]
   [0x42]
   [0x43]
