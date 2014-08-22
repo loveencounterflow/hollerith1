@@ -25,15 +25,16 @@ you might expect a modern database should provide; in particular, LevelDB
 
 * is a pure in-process DB; there are no other communication mechanisms like an HTTP API or somesuch;
 * does not provide indexes on data;
-* does not have data types and does not even have a concept of string encoding—all keys and values are just
+* does not have data types or even have a concept of string encoding—all keys and values are just
 	arbitrary byte sequences;
 * intricate transaction handling (but see below for batches);
 
 
 What LevelDB does have, on the other hand is this:
 
-* a `put key, value` operation that stores a key / value pair (let's call that a 'facet' for short),
-* a `get key` operation that reads a facet and throws an error in case the key is not found,
+* **a `put key, value` operation that stores a key / value pair (let's call that a 'facet' for short),**
+* **a `get key` operation that either yields the value that was `put` under that key, or else throws an
+	error in case the key is not found,**
 
 and, most interestingly:
 
