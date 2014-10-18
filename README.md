@@ -133,12 +133,40 @@ When using Unicode, the naïve, old-fashioned way of constructing an upper limit
 printable codepoints are *not* caught
  -->
 
-
-
-UCS-2
-
 > "The lexicographic sorting order of UCS-4 strings is preserved."—[RFC 2044](https://www.ietf.org/rfc/rfc2044.txt)
 
+<!--
+CESU-8 and Binary DB Compatibility
+
+Here we have to mention a somewhat thorny issue that is quite JavaScript-specific and a perennial source of
+confusion and subtle bugs. The problems go back to the late 1980's and early 1990's, when Unicode was first
+conceived and published. Back then, the decision was made to not create another [variable-width
+encoding](http://en.wikipedia.org/wiki/Variable-width_encoding); rather, it was thought that going from
+legacy 8bit encodings (that provides space for up to 156 characters) to a 16bit encoding with 65'536
+positions would be big enough and future-proof. True, three bytes would have offerred a whopping 16'777'216
+code points, but 3 is an awkward number when it comes to efficiently partition memory addresses. Four bytes
+would have given us a Unicode with no less than 4'294'967'296 codepoints, which nobody could imagine to be
+ever necessary for a character encoding scheme. Anyway, Unicode came under fire for being inefficient and
+wasteful for requiring a full 16 bits for each letter, each digit and each punctuation mark, so anything
+beyond 16 bits was out of question as it would have impaired Unicode's chances to ever gain wide adoption.
+
+Now it soon became evident that 65'536 codepoints was in fact little if you really wanted to encode *all* of
+the world's scripts, ancient and modern, widely used and obscure. Whether or not to include characters from
+such a wide range of sources was a matter of debate for some years, some members of the consortium putting
+forth the proposition that only 'commercially viable scripts in daily use in the present world' should be
+elligble for encoding.
+
+Fortunately, this narrow view did not prevail, and today, there are around 75'000 Chinese characters and
+over 10'000 Hangeul syllables encoded in Unicode. These alone exceed the limit set by a 16bit encoding, so a
+solution was needed. The Unicode consortium was still shy to break the 16bit barrier, as it was felt that it
+would break too much existing software at the time, again hampering the projects rate of adoption; also,
+spending *four* bytes on *each* character was in fact rather wasteful terms of both transmission times and
+storage volumes.
+
+The Gordian knot was untied with the introduction of so-called 'surrogate pairs'. These were reserved
+the existing
+
+ -->
 
 ## xxx
 
@@ -242,5 +270,41 @@ escape_chr
 :
 ^
 ```
+
+```
+
+
+phrasetype  | subject       | object            | index
+pt          | label: theme  | predicate: value  | idx
+
+###
+
+so|glyph:字|gloss:letter, character, word|o:0
+·········●●●··································
+●●●●●●●●·●··●●●●●●·●●●●●●··●●●●●●●●●··●●●●●●··
+●●●●●●●●●●●·●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●
+●·●··●●·●··●●···●●●··●●·●·····●··●·●··●·●·●·●●
+·●●·●●·●●·●·●·●●··●●·····●··●·······●··●··●●●·
+·●●●●····●●●●●●●···●●●●●·●·······●●·●·●●·●●●··
+●●·●····●··●·●·●●●●·····●··●··●·●··●··●●●··●●·
+●●·●·●···●●●·●·●●●··●··●···●·●·●●·●···●●···●··
+
+
+so|glyph:字|gloss:letter, character, word|o:0
+
+phrasetype  | subject         | object                  | index
+            | theme : topic   | predicate : complement  | idx [ , idx ... ]
+pt          | sk    : sv      | ok        : ov          | idx [ , idx ... ]
+
+             conjunct
+                                            adjunct
+
+###
+
+
+```
+
+
+
 
 

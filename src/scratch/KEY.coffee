@@ -31,6 +31,59 @@ options                   = require '../../options'
 M                         = options[ 'marks' ]
 
 
+###
+#===========================================================================================================
+
+888b    888 8888888888 888       888
+8888b   888 888        888   o   888
+88888b  888 888        888  d8b  888
+888Y88b 888 8888888    888 d888b 888
+888 Y88b888 888        888d88888b888
+888  Y88888 888        88888P Y88888
+888   Y8888 888        8888P   Y8888
+888    Y888 8888888888 888P     Y888
+
+
+#===========================================================================================================
+###
+
+
+#-----------------------------------------------------------------------------------------------------------
+@new_key = ( schema, theme, topic, predicate, complement, idx... ) ->
+  ### TAINT should go to `hollerith/KEY` ###
+  unless ( datatype = schema[ predicate ] )?
+    throw new Error "unknown datatype #{rpr predicate}"
+  #.........................................................................................................
+  { 'index-count': index_count, type, pad } = datatype
+  #.........................................................................................................
+  unless index_count is idx.length
+    throw new Error "need #{index_count} indices for predicate #{rpr predicate}, got #{idx.length}"
+  #.........................................................................................................
+  theme_esc       = KEY.esc theme
+  topic_esc       = KEY.esc topic
+  predicate_esc   = KEY.esc predicate
+  complement_esc  = KEY.esc complement
+  ### TAINT parametrize ###
+  idxs            = if index_count is 0 then '' else idxs.join ','
+  return 's' + '|' + theme_esc + '|' + topic_esc + '|' + predicate_esc + '|' + complement_esc + '|' + idxs
+
+
+
+###
+#===========================================================================================================
+
+ .d88888b.  888      8888888b.
+d88P" "Y88b 888      888  "Y88b
+888     888 888      888    888
+888     888 888      888    888
+888     888 888      888    888
+888     888 888      888    888
+Y88b. .d88P 888      888  .d88P
+ "Y88888P"  88888888 8888888P"
+
+
+#===========================================================================================================
+###
 
 
 ############################################################################################################
@@ -53,6 +106,16 @@ M                         = options[ 'marks' ]
   if tail.length > 0
     R += M[ 'slash' ] + ( ( @esc crumb for crumb in tail ).join M[ 'slash' ] )
   R += joiner
+  return R
+
+#-----------------------------------------------------------------------------------------------------------
+@new_secondary_node = ( realm, type, idn, tail... ) ->
+  joiner  = M[ 'joiner' ]
+  slash   = M[ 'slash'  ]
+  R = M[ 'secondary' ] + M[ 'node' ] + slash + ( @esc realm ) + ( @esc type )
+  if tail.length > 0
+    R += joiner + ( ( @esc crumb for crumb in tail ).join slash )
+  R += joiner + ( @esc idn ) + joiner
   return R
 
 #-----------------------------------------------------------------------------------------------------------
@@ -298,19 +361,19 @@ M                         = options[ 'marks' ]
       return R
   #.........................................................................................................
   joiner_matcher  = new RegExp ( escape M[ 'joiner' ] ), 'g'
-  slash_matcher   = new RegExp ( escape M[ 'slash'  ] ), 'g'
-  loop_matcher    = new RegExp ( escape M[ 'loop'   ] ), 'g'
-  joiner_replacer = ( '%' + d.toString 16 for d in new Buffer M[ 'joiner' ] ).join ''
-  slash_replacer  = ( '%' + d.toString 16 for d in new Buffer M[ 'slash'  ] ).join ''
-  loop_replacer   = ( '%' + d.toString 16 for d in new Buffer M[ 'loop'   ] ).join ''
+  # slash_matcher   = new RegExp ( escape M[ 'slash'  ] ), 'g'
+  # loop_matcher    = new RegExp ( escape M[ 'loop'   ] ), 'g'
+  joiner_replacer = ( 'µ' + d.toString 16 for d in new Buffer M[ 'joiner' ] ).join ''
+  # slash_replacer  = ( 'µ' + d.toString 16 for d in new Buffer M[ 'slash'  ] ).join ''
+  # loop_replacer   = ( 'µ' + d.toString 16 for d in new Buffer M[ 'loop'   ] ).join ''
   #.........................................................................................................
   return ( x ) ->
     throw new Error "value cannot be undefined" if x is undefined
     R = if TYPES.isa_text x then x else rpr x
-    R = R.replace /%/g,           '%25'
+    R = R.replace /µ/g,           'µb5'
     R = R.replace joiner_matcher, joiner_replacer
-    R = R.replace slash_matcher,  slash_replacer
-    R = R.replace loop_matcher,   loop_replacer
+    # R = R.replace slash_matcher,  slash_replacer
+    # R = R.replace loop_matcher,   loop_replacer
     return R
 
 #-----------------------------------------------------------------------------------------------------------
