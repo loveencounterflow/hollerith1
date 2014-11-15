@@ -1,6 +1,6 @@
 {
   "name": "hollerith",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "use LevelDB like 1969",
   "main": "lib/main.js",
   "scripts": {
