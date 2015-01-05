@@ -353,6 +353,7 @@ Y88b. .d88P 888      888  .d88P
 # HELPERS
 #-----------------------------------------------------------------------------------------------------------
 @esc = do ->
+  ### TAINT too complected ###
   #.........................................................................................................
   escape = ( text ) ->
       R = text
@@ -363,6 +364,7 @@ Y88b. .d88P 888      888  .d88P
   joiner_matcher  = new RegExp ( escape M[ 'joiner' ] ), 'g'
   # slash_matcher   = new RegExp ( escape M[ 'slash'  ] ), 'g'
   # loop_matcher    = new RegExp ( escape M[ 'loop'   ] ), 'g'
+  ### TAINT not correct, could be single digit if byte value < 0x10 ###
   joiner_replacer = ( 'µ' + d.toString 16 for d in new Buffer M[ 'joiner' ] ).join ''
   # slash_replacer  = ( 'µ' + d.toString 16 for d in new Buffer M[ 'slash'  ] ).join ''
   # loop_replacer   = ( 'µ' + d.toString 16 for d in new Buffer M[ 'loop'   ] ).join ''
@@ -375,6 +377,13 @@ Y88b. .d88P 888      888  .d88P
     # R = R.replace slash_matcher,  slash_replacer
     # R = R.replace loop_matcher,   loop_replacer
     return R
+
+#-----------------------------------------------------------------------------------------------------------
+@unescape = ( text_esc ) ->
+  matcher = /µ([0-9a-f]{2})/g
+  return text_esc.replace matcher, ( _, cid_hex ) ->
+    return String.fromCharCode parseInt cid_hex, 16
+
 
 #-----------------------------------------------------------------------------------------------------------
 @split_id = ( id ) ->

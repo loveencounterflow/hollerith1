@@ -1,4 +1,4 @@
-![](https://github.com/loveencounterflow/hollerith/raw/master/art/hollerith.png)
+![](https://github.com/loveencounterflow/hollerith/raw/master/art/hollerith-logo-v2.png)
 
 
 - [hollerith](#hollerith)
