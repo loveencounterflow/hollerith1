@@ -46,6 +46,9 @@ and, most interestingly:
 
 ### Lexicographic Order and UTF-8
 
+![](https://github.com/loveencounterflow/hollerith/raw/master/art/hollerith.png)
+
+
 The term '[lexicographically ordered](http://en.wikipedia.org/wiki/Lexicographical_order)' deserves some
 explanation: lexicographical ordering (in computer science) is somewhat different from alphabetical ordering
 (used in phone directories, card files and dictionaries) in that *only the underlying bits of the binary
