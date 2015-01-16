@@ -126,6 +126,34 @@ encodings that Latin-1 / Latin-9 / CP1252 and like schemes have become and embra
 standard that is rightfully (in spite of any shortcomings that it possesses, too) considered 'The Standard'
 in 2014—i.e. character repertoire Unicode / ISO 10646, encoded as UTF-8.
 
+
+<!--
+
+they swap in U+ffff to replace U+00ff
+
+witness commit: https://github.com/mcollina/levelgraph/commit/cb081cd5cbb54e9294b114a028f857710282ba4f
+
+if (i < 3) {  if (i < 3) {
+- result += '::\xff';   + result += '::\uffff';
+}   }
+
+return result;  return result;
+@@ -1217,8 +1217,8 @@ function createQuery(pattern, options) {
+, key = genKey(index, pattern, '')  , key = genKey(index, pattern, '')
+, limit = pattern.limit   , limit = pattern.limit
+, reverse = pattern.reverse || false  , reverse = pattern.reverse || false
+- , start = reverse ? key + '\xff' : key  + , start = reverse ? key + '\uffff' : key
+- , end = reverse ? key : key + '\xff'  + , end = reverse ? key : key + '\uffff'
+, query = {   , query = {
+start: start  start: start
+, end: end  , end: end
+
+
+
+
+ -->
+
+
 <!-- Worse still, one can often see `~` as a delimiter.
 
 When using Unicode, the naïve, old-fashioned way of constructing an upper limit by appending Latin-1 `ÿ`

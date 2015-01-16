@@ -1,6 +1,6 @@
 {
   "name": "hollerith",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "use LevelDB like 1969",
   "main": "lib/main.js",
   "scripts": {
@@ -23,15 +23,8 @@
     "url": "https://github.com/loveencounterflow/hollerith/issues"
   },
   "homepage": "https://github.com/loveencounterflow/hollerith",
-  "devDependencies": {
-    "coffee-script": "^1.7.1"
-  },
   "dependencies": {
-    "coffeenode-bitsnpieces": "0.0.23",
-    "coffeenode-diff": "^0.1.1",
-    "coffeenode-text": "^0.1.7",
-    "coffeenode-trm": "^0.1.20",
-    "level": ">=0.18.0",
-    "pipedreams": "0.0.11"
+    "coffeenode-bitsnpieces": "^0.1.5",
+    "coffeenode-text": "^0.1.9"
   }
 }
