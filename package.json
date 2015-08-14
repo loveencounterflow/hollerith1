@@ -1,5 +1,5 @@
 {
-  "name": "hollerith",
+  "name": "hollerith1",
   "version": "0.1.1",
   "description": "use LevelDB like 1969",
   "main": "lib/main.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/loveencounterflow/hollerith.git"
+    "url": "https://github.com/loveencounterflow/hollerith1.git"
   },
   "keywords": [
     "level",
@@ -20,9 +20,9 @@
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/loveencounterflow/hollerith/issues"
+    "url": "https://github.com/loveencounterflow/hollerith1/issues"
   },
-  "homepage": "https://github.com/loveencounterflow/hollerith",
+  "homepage": "https://github.com/loveencounterflow/hollerith1",
   "dependencies": {
     "coffeenode-bitsnpieces": "^0.1.5",
     "coffeenode-text": "^0.1.9"
